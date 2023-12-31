@@ -75,21 +75,6 @@ export default function HomeScreen() {
           title="Featured"
           description="Sumptious food categories"
         />
-        <FeaturedRow
-          id="123"
-          title="Tasty Discounts"
-          description="Lots of Discounts for everyone to enjoy"
-        />
-        <FeaturedRow
-          id="1234"
-          title="Offers Near you"
-          description="Support Your Local Restaurant tonight"
-        />
-        <FeaturedRow
-          id="12345"
-          title="Exciting Offers"
-          description="Explore the latest and most exciting offers for you"
-        />
       </ScrollView>
     </SafeAreaView>
   );
