@@ -6,7 +6,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   AdjustmentsHorizontalIcon,
@@ -16,14 +16,20 @@ import {
 } from "react-native-heroicons/outline";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
+import { getFeatured, getRestaurants } from "../client";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [featuredData, setFeaturedData] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+
+  useEffect(() => {
+    getFeatured().then((data) => setFeaturedData(data));
   }, []);
 
   return (
@@ -70,11 +76,16 @@ export default function HomeScreen() {
         {/* Categories */}
         <Categories />
         {/* Featured Rows*/}
-        <FeaturedRow
-          id="12"
-          title="Featured"
-          description="Sumptious food categories"
-        />
+        {featuredData?.map((category) => {
+          return (
+            <FeaturedRow
+              key={category.id}
+              id={category.id}
+              title={category.name}
+              description={category.short_description}
+            />
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );
