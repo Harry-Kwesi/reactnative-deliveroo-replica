@@ -1,12 +1,19 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowLongRightIcon,
   ArrowUpRightIcon,
 } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
+import { getFeatured } from "../client";
 
 const FeaturedRow = ({ id, title, description }) => {
+  const [restaurantdata, setRestaurantdata] = useState([]);
+
+  useEffect(() => {
+    getFeatured(id).then((data) => setRestaurantdata(data?.restaurants));
+  }, [id]);
+
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -23,42 +30,22 @@ const FeaturedRow = ({ id, title, description }) => {
         style={styles.scrollView}
       >
         {/* RestaurantCard */}
-        <RestaurantCard
-          id="123"
-          imgUrl="https://images.pexels.com/photos/13915043/pexels-photo-13915043.jpeg?auto=compress&cs=tinysrgb&w=800"
-          title="Enjoyable Jollof Rice"
-          rating={4.5}
-          genre="Ghanaian"
-          address="123 Main Street"
-          shortz_description="This is a title description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCard
-          id="123"
-          imgUrl="https://images.pexels.com/photos/13915043/pexels-photo-13915043.jpeg?auto=compress&cs=tinysrgb&w=800"
-          title="Enjoyable Jollof Rice"
-          rating={4.5}
-          genre="Ghanaian"
-          address="123 Main Street"
-          shortz_description="This is a title description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCard
-          id="123"
-          imgUrl="https://images.pexels.com/photos/13915043/pexels-photo-13915043.jpeg?auto=compress&cs=tinysrgb&w=800"
-          title="Enjoyable Jollof Rice"
-          rating={4.5}
-          genre="Ghanaian"
-          address="123 Main Street"
-          shortz_description="This is a title description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
+        {restaurantdata?.length > 0 &&
+          restaurantdata?.map((restaurant) => (
+            <RestaurantCard
+              key={restaurant._id} // Make sure to set a unique key for each item in the array
+              id={restaurant._id}
+              imgUrl={restaurant.image}
+              address="123 main street"
+              title={restaurant.title}
+              dishes={restaurant.dishes}
+              rating={restaurant.rating}
+              short_description={restaurant.short_description}
+              genre={restaurant.type?.name}
+              long={restaurant.long}
+              lat={restaurant.lat}
+            />
+          ))}
       </ScrollView>
     </View>
   );

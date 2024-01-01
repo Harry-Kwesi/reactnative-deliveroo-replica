@@ -16,11 +16,11 @@ import {
 } from "react-native-heroicons/outline";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
-import { getFeatured, getRestaurants } from "../client";
+import { getFeatured, getFeaturedRestaurant } from "../client";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const [featuredData, setFeaturedData] = useState(null);
+  const [featuredRestaurantData, setfeaturedRestaurantData] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,7 +29,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    getFeatured().then((data) => setFeaturedData(data));
+    getFeaturedRestaurant().then((data) => setfeaturedRestaurantData(data));
   }, []);
 
   return (
@@ -76,11 +76,12 @@ export default function HomeScreen() {
         {/* Categories */}
         <Categories />
         {/* Featured Rows*/}
-        {featuredData?.map((category) => {
+        {featuredRestaurantData?.map((category) => {
+          console.log("category", category);
           return (
             <FeaturedRow
-              key={category.id}
-              id={category.id}
+              key={category._id}
+              id={category._id}
               title={category.name}
               description={category.short_description}
             />

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
+import { urlFor } from "../client";
 
 const RestaurantCard = ({
   id,
@@ -10,7 +11,7 @@ const RestaurantCard = ({
   rating,
   genre,
   address,
-  shortz_description,
+  short_description,
   dishes,
   long,
   lat,
@@ -19,7 +20,7 @@ const RestaurantCard = ({
     <TouchableOpacity style={styles.cardContainer}>
       <Image
         source={{
-          uri: imgUrl,
+          uri: urlFor(imgUrl).url(),
         }}
         style={styles.image}
       />
